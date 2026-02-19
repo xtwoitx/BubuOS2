@@ -52,6 +52,9 @@ apt install -y \
     pipewire-pulse \
     wireplumber \
     libspa-0.2-bluetooth \
+    mpv \
+    surf \
+    xdotool \
     git
 
 # Switch from dhcpcd to NetworkManager for WiFi management
@@ -132,9 +135,11 @@ echo "[8/9] Setting up BubuOS service..."
 mkdir -p "$DATA_DIR"/{documents,music,video,pictures}
 chown -R "$TARGET_USER:$TARGET_USER" "$DATA_DIR"
 
-# Generate service file from template
+# Generate service files from templates
 sed "s/YOUR_USER/$TARGET_USER/g" "$BUBUOS_DIR/setup/bubuos.service" \
     > /etc/systemd/system/bubuos.service
+sed "s/YOUR_USER/$TARGET_USER/g" "$BUBUOS_DIR/setup/splash/bubuos-splash.service" \
+    > /etc/systemd/system/bubuos-splash.service
 systemctl daemon-reload
 systemctl enable bubuos.service
 
