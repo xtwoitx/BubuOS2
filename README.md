@@ -1,6 +1,6 @@
 # BubuOS
 
-A cute pocket operating system built with love for the [GPi Case 2](https://retroflag.com/gpi-case-2.html).
+A cute pocket operating system built with love for the [GPi Case 2](https://retroflag.com/gpi_case_2.html).
 
 BubuOS is a custom DOS-like shell for Raspberry Pi CM4, written in Python + pygame. It runs on a 640x480 DPI LCD with 10-button gamepad input — no keyboard, no mouse, no touchscreen. Just a tiny console in your pocket.
 
