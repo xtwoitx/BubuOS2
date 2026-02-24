@@ -149,6 +149,10 @@ sudo nmcli device wifi connect "SSID" password "password"
 
 This is a known bug in `vc4-fkms-v3d` + SDL2: the driver reports `DRM_CAP_ASYNC_PAGE_FLIP=1` but rejects async flips. BubuOS works around this by using **X11** (`SDL_VIDEODRIVER=x11`) instead of kmsdrm. The setup script configures this automatically.
 
+### Coil whine / high-pitched noise from GPi Case 2
+
+This is a known hardware issue with the GPi Case 2 — the voltage regulators can produce audible coil whine, especially when the display is active. It is not caused by BubuOS. Some units are worse than others. There is no software fix, but connecting a Bluetooth speaker masks it.
+
 ## The Story
 
 Bubu and Dudu are two characters that helped me through a tough time. Building a tiny OS for them — giving them a home they can live in, play music, check the weather, and eat burgers — turned into a project that brought me back to life. This is that project.
