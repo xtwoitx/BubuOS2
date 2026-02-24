@@ -60,7 +60,7 @@ BubuOS is a custom DOS-like shell for Raspberry Pi CM4, written in Python + pyga
    - Set **hostname** (e.g. `bubuos`)
    - **Enable SSH** (password authentication)
    - Set **username and password** — you'll need these to connect
-   - Optionally configure WiFi (or use BubuOS WiFi Manager later)
+   - **Configure WiFi** — required for installation (GPi Case 2 has no Ethernet)
 4. Flash to microSD card and insert into GPi Case 2
 
 ### Quick setup (recommended)
