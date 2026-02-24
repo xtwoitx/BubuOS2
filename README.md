@@ -155,7 +155,11 @@ This is a known hardware issue with the GPi Case 2 — the voltage regulators ca
 
 ## The Story
 
-Bubu and Dudu are two characters that helped me through a tough time. Building a tiny OS for them — giving them a home they can live in, play music, check the weather, and eat burgers — turned into a project that brought me back to life. This is that project.
+It started with the form factor. The GPi Case 2 looks like a Game Boy, and after years of using a Nintendo Switch I was already comfortable with gamepad-only interfaces — limited buttons, no mouse, no keyboard. I wanted to turn it into a tiny pocket computer.
+
+I first installed a DOS-like system with Norton Commander, but it became obvious quickly — traditional TUIs are designed for 80×25 terminals, not a 640×480 LCD with a D-pad. Everything was too small, too dense, too fiddly. So I decided to write my own shell from scratch, using SDL2 (via pygame) for pixel-perfect control over every element on that tiny screen.
+
+Bubu and Dudu are characters that are very popular in my family — they genuinely helped soften a rough period of depression. Combining them with the GPi Case felt natural: they became the mascots of the pocket computer, living inside it, playing music, checking the weather, and eating burgers. Building a home for them turned into a project that brought me back to life.
 
 ## License
 
