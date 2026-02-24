@@ -52,16 +52,30 @@ BubuOS is a custom DOS-like shell for Raspberry Pi CM4, written in Python + pyga
 
 ## Install
 
+### Preparing the SD card
+
+1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
+2. Choose **Raspberry Pi OS Lite (64-bit)** (no desktop)
+3. Click the gear icon (settings) before flashing:
+   - Set **hostname** (e.g. `bubuos`)
+   - **Enable SSH** (password authentication)
+   - Set **username and password** — you'll need these to connect
+   - Optionally configure WiFi (or use BubuOS WiFi Manager later)
+4. Flash to microSD card and insert into GPi Case 2
+
 ### Quick setup (recommended)
 
-1. Flash **Raspberry Pi OS Lite (64-bit)** to a microSD card
-2. Boot, log in, and clone this repo:
+1. Boot the Pi and connect via SSH:
+   ```bash
+   ssh <your-username>@<hostname>.local
+   ```
+2. Clone this repo:
    ```bash
    git clone https://github.com/xtwoitx/bubuos.git ~/bubuos
    ```
-3. Run the setup script (replace `pi` with your username if different):
+3. Run the setup script (use your username):
    ```bash
-   sudo bash ~/bubuos/setup/setup.sh pi
+   sudo bash ~/bubuos/setup/setup.sh <your-username>
    ```
 4. Reboot:
    ```bash
