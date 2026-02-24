@@ -91,8 +91,10 @@ BubuOS will start automatically on boot. Use the built-in WiFi Manager app to co
 3. Install dependencies:
    ```bash
    sudo apt install python3-pygame xserver-xorg-core xinit \
+       libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-image-dev \
        pipewire pipewire-pulse wireplumber libspa-0.2-bluetooth \
-       network-manager bluez
+       network-manager bluez bluez-tools \
+       mpv surf xdotool
    ```
 4. Allow non-root X server:
    ```bash
@@ -104,6 +106,48 @@ BubuOS will start automatically on boot. Use the built-in WiFi Manager app to co
    sudo systemctl enable bubuos
    sudo reboot
    ```
+
+## Troubleshooting
+
+### Black screen after boot / display not working
+
+The GPi Case 2 uses a DPI LCD that requires `vc4-fkms-v3d` overlay. **Do not use `vc4-kms-v3d`** (full KMS) — it does not support the DPI display.
+
+Check `/boot/firmware/config.txt`:
+```
+dtoverlay=vc4-fkms-v3d
+```
+
+BubuOS also disables HDMI output at startup to avoid conflicts with the DPI display. If you see output on HDMI instead of the built-in screen, this is handled automatically.
+
+### Buttons / gamepad not responding
+
+The GPi Case 2 buttons are mapped as a USB gamepad. The BubuOS service must start **after** `multi-user.target` to ensure the USB gamepad is ready. If you see `KeyError` or `SystemError` in logs related to joystick, check:
+```bash
+journalctl -u bubuos --no-pager -n 30
+```
+Make sure the service file has `After=multi-user.target` (not `sysinit.target`).
+
+### No sound
+
+BubuOS uses `SDL_AUDIODRIVER=alsa` by default. Sound effects are generated procedurally (no audio files needed). For Bluetooth speaker audio:
+
+1. Open the **Bluetooth** app in BubuOS to pair your speaker
+2. PipeWire/WirePlumber handle Bluetooth audio routing automatically
+3. A2DP profiles need ~10 seconds to register after boot — if Bluetooth connection fails, wait and retry
+4. **Do not restart PipeWire/WirePlumber** while a BT device is connected — it will disconnect
+
+### WiFi not connecting
+
+WiFi configured in Raspberry Pi Imager is used for the initial SSH setup. After BubuOS is installed, you can manage WiFi through the built-in **WiFi Manager** app. If WiFi stops working:
+```bash
+sudo nmcli device wifi list
+sudo nmcli device wifi connect "SSID" password "password"
+```
+
+### SDL2 / pygame crashes with page flip errors
+
+This is a known bug in `vc4-fkms-v3d` + SDL2: the driver reports `DRM_CAP_ASYNC_PAGE_FLIP=1` but rejects async flips. BubuOS works around this by using **X11** (`SDL_VIDEODRIVER=x11`) instead of kmsdrm. The setup script configures this automatically.
 
 ## The Story
 
