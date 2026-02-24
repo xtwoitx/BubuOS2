@@ -5,7 +5,7 @@ Thanks for your interest in BubuOS!
 ## Getting Started
 
 1. Fork the repo
-2. Clone to your machine: `git clone https://github.com/YOUR_USER/BubuOS2.git`
+2. Clone to your machine: `git clone https://github.com/YOUR_USER/bubuos.git`
 3. Follow the install instructions in [README.md](README.md)
 
 ## Development
@@ -36,7 +36,7 @@ bubuos/
 
 ## Reporting Bugs
 
-Use the [Bug Report](https://github.com/xtwoitx/BubuOS2/issues/new?template=bug_report.md) template. Include logs from `journalctl -u bubuos`.
+Use the [Bug Report](https://github.com/xtwoitx/bubuos/issues/new?template=bug_report.md) template. Include logs from `journalctl -u bubuos`.
 
 ## License
 

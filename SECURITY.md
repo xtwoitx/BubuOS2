@@ -8,7 +8,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by [opening a private issue](https://github.com/xtwoitx/BubuOS2/issues/new) or emailing the maintainer directly.
+If you discover a security vulnerability, please report it by [opening a private issue](https://github.com/xtwoitx/bubuos/issues/new) or emailing the maintainer directly.
 
 Please do **not** open a public issue for security vulnerabilities.
 
