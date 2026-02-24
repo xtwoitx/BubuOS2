@@ -8,7 +8,7 @@ BubuOS is a custom DOS-like shell for Raspberry Pi CM4, written in Python + pyga
 
 ## The Story
 
-It started with the form factor. The GPi Case 2 looks like a Game Boy, and after years of using a Nintendo Switch I was already comfortable with gamepad-only interfaces — limited buttons, no mouse, no keyboard. I wanted to turn it into a tiny pocket computer.
+It started with the form factor. The GPi Case 2 looks like a [Game Boy](https://en.wikipedia.org/wiki/Game_Boy), and after years of using a Nintendo Switch I was already comfortable with gamepad-only interfaces — limited buttons, no mouse, no keyboard. I wanted to turn it into a tiny pocket computer.
 
 I first installed a DOS-like system with Norton Commander, but it became obvious quickly — traditional TUIs are designed for 80×25 terminals, not a 640×480 LCD with a D-pad. Everything was too small, too dense, too fiddly. So I decided to write my own shell from scratch, using SDL2 (via pygame) for pixel-perfect control over every element on that tiny screen.
 
