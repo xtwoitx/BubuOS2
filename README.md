@@ -24,6 +24,7 @@ Bubu and Dudu are characters that are very popular in my family — they genuine
 - **Text Editor** — on-screen QWERTY keyboard for notes
 - **Web Radio** — internet radio player
 - **Image Viewer** — full-screen image viewer with folder navigation
+- **File Transfer** — SMB share for drag & drop file exchange via your computer's file manager
 - **Bluetooth Audio** — pair and connect BT speakers
 - **WiFi Manager** — scan and connect to networks
 - **System Info** — CPU, RAM, storage, network, temperature
@@ -102,7 +103,7 @@ BubuOS will start automatically on boot. Use the built-in WiFi Manager app to co
        libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-image-dev \
        pipewire pipewire-pulse wireplumber libspa-0.2-bluetooth \
        network-manager bluez bluez-tools \
-       mpv surf xdotool
+       mpv samba
    ```
 4. Allow non-root X server:
    ```bash
@@ -114,6 +115,29 @@ BubuOS will start automatically on boot. Use the built-in WiFi Manager app to co
    sudo systemctl enable bubuos
    sudo reboot
    ```
+
+## File Transfer
+
+BubuOS includes two ways to exchange files with the device:
+
+### SMB share (for media and documents)
+
+The setup script installs Samba and shares the `~/data` directory. Connect from your computer's file manager:
+
+- **macOS**: Finder → Go → Connect to Server (⌘K) → `smb://<hostname>.local/BubuOS`
+- **Windows**: File Explorer → `\\<hostname>.local\BubuOS`
+- **Linux**: File manager → `smb://<hostname>.local/BubuOS`
+
+Use the username and password you set during SD card setup. Files added here appear automatically in the BubuOS file browser.
+
+### Deploy script (for code updates)
+
+The included `deploy.sh` script syncs the codebase to the device via rsync over SSH:
+
+```bash
+./deploy.sh           # sync files only
+./deploy.sh restart   # sync + reboot device
+```
 
 ## Troubleshooting
 

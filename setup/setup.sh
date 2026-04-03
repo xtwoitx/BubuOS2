@@ -53,8 +53,7 @@ apt install -y \
     wireplumber \
     libspa-0.2-bluetooth \
     mpv \
-    surf \
-    xdotool \
+    samba \
     git
 
 # Switch from dhcpcd to NetworkManager for WiFi management
@@ -128,9 +127,34 @@ allowed_users=anybody
 needs_root_rights=yes
 EOF
 
-# --- 8. Create data directory and systemd service ---
+# --- 8. Configure SMB file sharing ---
 echo ""
-echo "[8/9] Setting up BubuOS service..."
+echo "[8/10] Setting up file sharing..."
+
+cat > /etc/samba/smb.conf << SMBEOF
+[global]
+workgroup = WORKGROUP
+server string = BubuOS
+security = user
+map to guest = Bad User
+dns proxy = no
+
+[BubuOS]
+path = $DATA_DIR
+browseable = yes
+writable = yes
+guest ok = no
+create mask = 0644
+directory mask = 0755
+valid users = $TARGET_USER
+SMBEOF
+
+systemctl enable smbd
+systemctl restart smbd
+
+# --- 9. Create data directory and systemd service ---
+echo ""
+echo "[9/10] Setting up BubuOS service..."
 
 mkdir -p "$DATA_DIR"/{documents,music,video,pictures}
 chown -R "$TARGET_USER:$TARGET_USER" "$DATA_DIR"
@@ -143,9 +167,9 @@ sed "s/YOUR_USER/$TARGET_USER/g" "$BUBUOS_DIR/setup/splash/bubuos-splash.service
 systemctl daemon-reload
 systemctl enable bubuos.service
 
-# --- 9. Sudoers for WiFi and Bluetooth management ---
+# --- 10. Sudoers for WiFi and Bluetooth management ---
 echo ""
-echo "[9/9] Configuring permissions..."
+echo "[10/10] Configuring permissions..."
 
 cat > /etc/sudoers.d/bubuos << EOF
 $TARGET_USER ALL=(ALL) NOPASSWD: /usr/bin/nmcli
@@ -158,5 +182,9 @@ echo "========================================="
 echo "  BubuOS setup complete!"
 echo "  User:           $TARGET_USER"
 echo "  Data directory:  $DATA_DIR"
+echo ""
+echo "  Set SMB password for file sharing:"
+echo "    sudo smbpasswd -a $TARGET_USER"
+echo ""
 echo "  Reboot to start: sudo reboot"
 echo "========================================="

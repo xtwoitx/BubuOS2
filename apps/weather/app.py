@@ -271,15 +271,11 @@ class WeatherApp(App):
         else:
             season = "autumn"
 
-        # Override: rainy weather → raincoat (but never override winter)
+        # Override: current rainy weather → raincoat (but never override winter)
         if season != "winter":
             cur_icon = self.current.get("icon_key", "")
             if cur_icon in _RAINY_ICONS:
                 season = "autumn"
-            elif self.forecast:
-                rainy = sum(1 for d in self.forecast if d["icon_key"] in _RAINY_ICONS)
-                if rainy >= 3:
-                    season = "autumn"
 
         return os.path.join(self._assets_dir, _SEASON_ANIM[season])
 

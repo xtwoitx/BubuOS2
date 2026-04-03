@@ -144,8 +144,34 @@ class Shell(App):
         self.file_list.set_items(display)
 
     def _refresh_counts(self):
-        """Update folder counts in-place without resetting selection."""
-        changed = False
+        """Update folder counts and detect new/removed files."""
+        # Check if current directory contents changed
+        try:
+            current_names = sorted(
+                n for n in os.listdir(self.current_dir) if not n.startswith(".")
+            )
+        except OSError:
+            current_names = []
+
+        # Filter out hidden entries from known list
+        known_names = sorted(
+            os.path.basename(path)
+            for _, path, _, _ in self.file_entries
+            if path != os.path.dirname(self.current_dir)  # skip ".." entry
+            and not os.path.basename(path).startswith(".")
+        )
+
+        # Exclude special entries (trash dir at root)
+        if self.current_dir == self.system.data_dir:
+            known_names = [n for n in known_names if n != ".trash"]
+            current_names = [n for n in current_names
+                             if n not in ("playlists", "calendar")]
+
+        if current_names != known_names:
+            self._load_files()
+            return
+
+        # Update subfolder counts in-place
         for i, (label, path, is_dir, count) in enumerate(self.file_entries):
             if not is_dir or count is None:
                 continue
@@ -155,10 +181,8 @@ class Shell(App):
                 new_cnt = 0
             if new_cnt != count:
                 self.file_entries[i] = (label, path, is_dir, new_cnt)
-                changed = True
-        if changed:
-            # Also check if new files/folders appeared
-            self._load_files()
+                display = [e[0] for e in self.file_entries]
+                self.file_list.set_items(display)
 
     def _file_icon(self, ext):
         icons = {
@@ -186,7 +210,6 @@ class Shell(App):
             ("BubuPlayer", "mediaplayer"),
             ("BubuRadio", "radio"),
             ("BubuWeather", "weather"),
-            ("BubuBrowser", "browser"),
             ("Calendar", "calendar"),
             ("Snake", "snake"),
         ]
@@ -230,10 +253,6 @@ class Shell(App):
             from apps.mediaplayer.app import MediaPlayerApp
             player = MediaPlayerApp(self.system)
             self.system.open_app(player)
-        elif app_key == "browser":
-            from apps.browser.app import BrowserApp
-            browser = BrowserApp(self.system)
-            self.system.open_app(browser)
         elif app_key == "wifi":
             from apps.wifi.app import WiFiApp
             wifi = WiFiApp(self.system)
